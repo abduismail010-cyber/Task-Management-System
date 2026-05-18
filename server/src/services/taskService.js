@@ -14,7 +14,15 @@ const getAllTasks = async () => {
   return tasks;
 };
 
+const getTaskById = async (taskId) => {
+  const task = await Task.findById(taskId);
+
+  return task;
+};
+
+
 module.exports = {
   createTask,
   getAllTasks,
+  getTaskById,
 };
