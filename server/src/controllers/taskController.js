@@ -1,5 +1,6 @@
 const taskService = require("../services/taskService");
 
+// Create Task
 const createTask = async (req, res) => {
   try {
     const task = await taskService.createTask(req.body);
@@ -16,6 +17,25 @@ const createTask = async (req, res) => {
   }
 };
 
+// Get All Tasks
+const getAllTasks = async (req, res) => {
+  try {
+    const tasks = await taskService.getAllTasks();
+
+    res.status(200).json({
+      success: true,
+      count: tasks.length,
+      data: tasks,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   createTask,
+  getAllTasks,
 };
