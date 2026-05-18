@@ -33,10 +33,17 @@ const updateTask = async (taskId, updatedData) => {
   return task;
 };
 
+const deleteTask = async (taskId) => {
+  const task = await Task.findByIdAndDelete(taskId);
+
+  return task;
+};
+
 
 module.exports = {
   createTask,
   getAllTasks,
   getTaskById,
   updateTask,
+  deleteTask,
 };
