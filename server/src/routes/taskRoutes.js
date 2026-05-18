@@ -13,4 +13,7 @@ router.get("/", taskController.getAllTasks);
 // Get Single Task
 router.get("/:id", taskController.getTaskById);
 
+// Update Task
+router.put("/:id", taskController.updateTask);
+
 module.exports = router;

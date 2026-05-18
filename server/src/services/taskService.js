@@ -20,9 +20,23 @@ const getTaskById = async (taskId) => {
   return task;
 };
 
+const updateTask = async (taskId, updatedData) => {
+  const task = await Task.findByIdAndUpdate(
+    taskId,
+    updatedData,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  return task;
+};
+
 
 module.exports = {
   createTask,
   getAllTasks,
   getTaskById,
+  updateTask,
 };
