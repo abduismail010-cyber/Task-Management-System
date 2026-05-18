@@ -1,26 +1,31 @@
 const express = require("express");
-const cors = require("cors");
 
-const taskRoutes = require("./routes/taskRoutes");
-const errorHandler = require("./middlewares/errorMiddleware");
+const router = express.Router();
 
-const app = express();
+const taskController = require("../controllers/taskController");
+const validateTask = require("../validators/taskValidator");
 
-// Middlewares
-app.use(cors());
-app.use(express.json());
+// Create Task
+router.post(
+  "/",
+  validateTask,
+  taskController.createTask
+);
 
-// Routes
-app.use("/api/tasks", taskRoutes);
+// Get All Tasks
+router.get("/", taskController.getAllTasks);
 
-// Test Route
-app.get("/", (req, res) => {
-  res.status(200).json({
-    message: "Task Management API is running",
-  });
-});
+// Get Single Task
+router.get("/:id", taskController.getTaskById);
 
-// Error Middleware
-app.use(errorHandler);
+// Update Task
+router.put(
+  "/:id",
+  validateTask,
+  taskController.updateTask
+);
 
-module.exports = app;
+// Delete Task
+router.delete("/:id", taskController.deleteTask);
+
+module.exports = router;    
