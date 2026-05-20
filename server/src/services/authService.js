@@ -54,6 +54,42 @@ const registerUser = async (userData) => {
   };
 };
 
+// Login User
+const loginUser = async (userData) => {
+  const { email, password } = userData;
+
+  // Find user
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    throw new Error("Invalid email or password");
+  }
+
+  // Compare password
+  const isMatch = await bcrypt.compare(
+    password,
+    user.password
+  );
+
+  if (!isMatch) {
+    throw new Error("Invalid email or password");
+  }
+
+  // Generate token
+  const token = generateToken(user._id);
+
+  return {
+    user: {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+    },
+    token,
+  };
+};
+
+
 module.exports = {
   registerUser,
+  loginUser,
 };

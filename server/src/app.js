@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-
+const authRoutes = require("./routes/authRoutes");
 const swaggerUi = require("swagger-ui-express");
 
 const swaggerSpec = require("./config/swagger");
@@ -15,8 +15,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Routes
-app.use("/api/tasks", taskRoutes);
+
+
 
 // Swagger Docs
 app.use(
@@ -32,6 +32,10 @@ app.get("/", (req, res) => {
   });
 });
 
+// Routes
+app.use("/api/tasks", taskRoutes);
+
+app.use("/api/auth", authRoutes);
 // Error Middleware
 app.use(errorHandler);
 
