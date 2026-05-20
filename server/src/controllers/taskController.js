@@ -24,7 +24,10 @@ const createTask = async (req, res) => {
 // Get All Tasks
 const getAllTasks = async (req, res) => {
   try {
-    const tasks = await taskService.getAllTasks(req.query);
+    const tasks = await taskService.getAllTasks({
+  ...req.query,
+  userId: req.user._id,
+});
 
     res.status(200).json({
       success: true,

@@ -28,13 +28,19 @@ const getAllTasks = async (queryParams) => {
   if (queryParams.priority) {
     filter.priority = queryParams.priority;
   }
-
-  const tasks = await Task.find(filter).sort({
-    createdAt: -1,
-  });
+const tasks = await Task.find({
+  ...filter,
+  user: queryParams.userId,
+}).sort({
+  createdAt: -1,
+});
 
   return tasks;
 };
+
+
+
+
 const getTaskById = async (taskId) => {
   const task = await Task.findById(taskId);
 
