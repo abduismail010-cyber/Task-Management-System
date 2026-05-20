@@ -2,6 +2,8 @@ const express = require("express");
 
 const router = express.Router();
 
+const protect = require("../middlewares/authMiddleware");
+
 const taskController = require("../controllers/taskController");
 
 const validateTask = require("../validators/taskValidator");
@@ -23,7 +25,7 @@ const validateTask = require("../validators/taskValidator");
  *       200:
  *         description: List of all tasks
  */
-router.get("/", taskController.getAllTasks);
+router.get("/", protect, taskController.getAllTasks);
 
 /**
  * @swagger
@@ -44,7 +46,7 @@ router.get("/", taskController.getAllTasks);
  *       404:
  *         description: Task not found
  */
-router.get("/:id", taskController.getTaskById);
+router.get("/:id", protect, taskController.getTaskById);
 
 /**
  * @swagger
@@ -75,6 +77,7 @@ router.get("/:id", taskController.getTaskById);
  */
 router.post(
   "/",
+  protect,
   validateTask,
   taskController.createTask
 );
@@ -117,6 +120,7 @@ router.post(
  */
 router.put(
   "/:id",
+  protect,
   validateTask,
   taskController.updateTask
 );
@@ -140,6 +144,6 @@ router.put(
  *       404:
  *         description: Task not found
  */
-router.delete("/:id", taskController.deleteTask);
+router.delete("/:id", protect, taskController.deleteTask);
 
 module.exports = router;    

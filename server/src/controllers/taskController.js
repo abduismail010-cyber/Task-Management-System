@@ -3,7 +3,11 @@ const taskService = require("../services/taskService");
 // Create Task
 const createTask = async (req, res) => {
   try {
-    const task = await taskService.createTask(req.body);
+    req.body.user = req.user._id;
+
+    const task = await taskService.createTask(
+      req.body
+    );
 
     res.status(201).json({
       success: true,
