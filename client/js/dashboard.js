@@ -19,6 +19,8 @@ const tasksContainer =
 const taskForm =
   document.getElementById("taskForm");
 
+let editingTaskId = null;
+
 // Load Tasks
 const loadTasks = async () => {
   try {
@@ -50,6 +52,19 @@ const loadTasks = async () => {
 
         <p>Priority: ${task.priority}</p>
 
+        <p>Category: ${task.category}</p>
+
+        <button onclick="editTask(
+          '${task._id}',
+          '${task.title}',
+          '${task.description}',
+          '${task.status}',
+          '${task.priority}',
+          '${task.category}'
+        )">
+          Edit
+        </button>
+
         <button onclick="deleteTask('${task._id}')">
           Delete
         </button>
@@ -64,7 +79,7 @@ const loadTasks = async () => {
   }
 };
 
-// Add Task
+// Add / Update Task
 taskForm.addEventListener(
   "submit",
   async (e) => {
@@ -93,9 +108,24 @@ taskForm.addEventListener(
         "category"
       ).value;
 
+    // Frontend Validation
+    if (title.trim() === "") {
+      alert("Title is required");
+
+      return;
+    }
+
     try {
-      await fetch(`${API_URL}/tasks`, {
-        method: "POST",
+      const url = editingTaskId
+        ? `${API_URL}/tasks/${editingTaskId}`
+        : `${API_URL}/tasks`;
+
+      const method = editingTaskId
+        ? "PUT"
+        : "POST";
+
+      await fetch(url, {
+        method,
 
         headers: {
           "Content-Type":
@@ -115,12 +145,44 @@ taskForm.addEventListener(
 
       taskForm.reset();
 
+      editingTaskId = null;
+
       loadTasks();
     } catch (error) {
       console.error(error);
     }
   }
 );
+
+// Edit Task
+const editTask = (
+  id,
+  title,
+  description,
+  status,
+  priority,
+  category
+) => {
+  editingTaskId = id;
+
+  document.getElementById("title").value =
+    title;
+
+  document.getElementById(
+    "description"
+  ).value = description;
+
+  document.getElementById("status").value =
+    status;
+
+  document.getElementById(
+    "priority"
+  ).value = priority;
+
+  document.getElementById(
+    "category"
+  ).value = category;
+};
 
 // Delete Task
 const deleteTask = async (id) => {

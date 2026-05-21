@@ -1,8 +1,11 @@
-const API_URL = "http://localhost:5000/api";
+const API_URL =
+  "http://localhost:5000/api";
 
 // Register
 const registerForm =
-  document.getElementById("registerForm");
+  document.getElementById(
+    "registerForm"
+  );
 
 if (registerForm) {
   registerForm.addEventListener(
@@ -11,13 +14,26 @@ if (registerForm) {
       e.preventDefault();
 
       const name =
-        document.getElementById("name").value;
+        document.getElementById("name")
+          .value;
 
       const email =
-        document.getElementById("email").value;
+        document.getElementById("email")
+          .value;
 
       const password =
-        document.getElementById("password").value;
+        document.getElementById(
+          "password"
+        ).value;
+
+      // Frontend Validation
+      if (password.length < 6) {
+        alert(
+          "Password must be at least 6 characters"
+        );
+
+        return;
+      }
 
       try {
         const response = await fetch(
@@ -38,7 +54,8 @@ if (registerForm) {
           }
         );
 
-        const data = await response.json();
+        const data =
+          await response.json();
 
         if (data.success) {
           localStorage.setItem(
@@ -46,7 +63,9 @@ if (registerForm) {
             data.data.token
           );
 
-          alert("Registration successful");
+          alert(
+            "Registration successful"
+          );
 
           window.location.href =
             "./index.html";
@@ -64,7 +83,9 @@ if (registerForm) {
 
 // Login
 const loginForm =
-  document.getElementById("loginForm");
+  document.getElementById(
+    "loginForm"
+  );
 
 if (loginForm) {
   loginForm.addEventListener(
@@ -73,10 +94,13 @@ if (loginForm) {
       e.preventDefault();
 
       const email =
-        document.getElementById("email").value;
+        document.getElementById("email")
+          .value;
 
       const password =
-        document.getElementById("password").value;
+        document.getElementById(
+          "password"
+        ).value;
 
       try {
         const response = await fetch(
@@ -96,7 +120,8 @@ if (loginForm) {
           }
         );
 
-        const data = await response.json();
+        const data =
+          await response.json();
 
         if (data.success) {
           localStorage.setItem(
